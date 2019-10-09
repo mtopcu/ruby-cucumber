@@ -1,0 +1,11 @@
+def request(url, country_code = nil, accept_language = nil, cookie = nil, user_agent = nil, use_basic_auth = true)
+  uri = URI.parse("http://google.com")
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Get.new(uri.request_uri)
+  request.initialize_http_header({"User-Agent" => "My Ruby Script"})
+
+  response = http.request(request)
+  puts response.code
+  # => 301
+  puts response["location"] # All headers are lowercase
+  # => http://www.google.com/

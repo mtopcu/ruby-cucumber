@@ -63,3 +63,49 @@ html= page.body
   end
 end
 
+Given(/^I select products to compare$/) do
+  check('Select to compare')
+end
+
+When(/^Check head service$/) do
+  html= page.body
+  
+  if html["SONYMOBILE.COM SERVICES API - BEGIN: HEAD"]
+  else
+    fail 'Head service should be up!'
+  end
+  
+  if html["/wp-content/assets/css/global"]
+  else
+    fail 'Head service should be up!'
+  end
+end
+
+Then(/^Print current url$/) do
+  print page.current_url
+end
+
+Given("Check the product number") do
+  css= ".product-name"
+  products = page.all(:css, css)
+  @product_number1 = products.size()
+  puts @product_number1
+end
+
+When("Check the 4K Display Filter") do
+  click_on(class: 'btn-alt-special')
+  expect(page).to have_content('4K display')
+end
+
+Then("Product number should be less then before") do
+  css= ".product-name"
+  products = page.all(:css, css)
+  @product_number2 = products.size()
+  puts @product_number2
+end
+
+When("Reload {string}") do |string|
+  visit string
+  visit string
+end
+
